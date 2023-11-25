@@ -1,21 +1,26 @@
-var postcss = require('postcss');
+const pattern = /(?<!:[:-\w]+)[_.-]+\w/g;
 
-var pattern = /[-_.]+([a-zA-Z0-9])/g;
+const pipe = (...fs) => (arg) => fs.reduce((acc, f) => f(acc), arg);
 
-function replacer (g) {
+const toCamelCase = (str) => str.replace(
+    pattern,
+    (match) => match[0] === '.'
+        ? `.${match.slice(-1).toLowerCase()}`
+        : `${match.slice(-1).toUpperCase()}`
+);
 
-    var character = g[g.length - 1];
+const fixNestedSelectors = (str) => str.replace(/&[a-z]/, match => match.toUpperCase());
 
-    return g[0] === '.' ? '.' + character.toLowerCase() : character.toUpperCase();
-}
+const plugin = () => ({
+    postcssPlugin: 'postcss-safe-camel-case',
+    Rule(rule) {
+        rule.selector = pipe(
+            fixNestedSelectors,
+            toCamelCase,
+        )(rule.selector);
+    },
+})
 
-module.exports = postcss.plugin('postcss-camel-case', function() {
+plugin.postcss = true
 
-    return function (css) {
-
-        css.walkRules(function (rule) {
-
-            rule.selector = rule.selector.replace(pattern, replacer);
-        });
-    };
-});
+module.exports = plugin

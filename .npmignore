@@ -1,8 +1,8 @@
-.gitignore
-
 node_modules/
-
 test/
-.travis.yml
-
-gulpfile.js
+coverage/
+.eslint
+.gitignore
+.github
+index.test.js
+package-lock.json
