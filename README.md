@@ -1,4 +1,4 @@
-# postcss-camel-case
+# postcss-safe-camel-case
 
 This PostCSS plugin safely converts CSS selector names to camelCase, without affecting pseudo selectors and attributes.
 Turns `.block__element--modifier :not(:first-child)` into `.blockElementModifier :not(:first-child)`.
