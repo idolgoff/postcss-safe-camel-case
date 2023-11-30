@@ -23,11 +23,14 @@ describe('postcss-camel-case', () => {
 
     it('should convert complex class names safely', async () => {
         await test('.block__element--modifier1 :not(:first-child) div.name-space {}', '.blockElementModifier1 :not(:first-child) div.nameSpace {}', {});
-        await test('span {}', 'span {}', {});
-        await test('div:last-child {}', 'div:last-child {}', {});
-        await test('.menu {}', '.menu {}', {});
         await test('.flex-row {}', '.flexRow {}', {});
     });
+
+    it('should keep these selectors', async () => {
+        await test('span {}', 'span {}', {});
+        await test('.menu {}', '.menu {}', {});
+        await test('div:last-child {}', 'div:last-child {}', {});
+    })
 
     it('should convert nested class names safely', async () => {
         await test('&primary {}', '&Primary {}', {});

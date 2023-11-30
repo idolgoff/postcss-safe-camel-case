@@ -1,4 +1,4 @@
-const pattern = /(?<!:[:-\w]+)[_.-]+\w/g;
+const pattern = /(?<!(:[:-\w]+)|(:global.+))[_.-]+\w/g;
 
 const pipe = (...fs) => (arg) => fs.reduce((acc, f) => f(acc), arg);
 
